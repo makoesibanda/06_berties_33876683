@@ -40,7 +40,28 @@ a:active {
     padding: 5px;
 }
 
-/* ---------- NEW TABLE STYLING FOR BOOK LIST ---------- */
+/* ---------- NEW CLEAN LIST STYLING FOR BARGAIN BOOKS ---------- */
+
+ul {
+    list-style-type: none;        /* remove bullets */
+    padding: 0;                   
+    margin: 20px auto;
+    max-width: 400px;             /* keeps list neat */
+}
+
+li {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+li:hover {
+    background-color: #f1f1f1;
+}
+
+/* ---------- TABLE STYLING ---------- */
 
 table {
     border-collapse: collapse;
