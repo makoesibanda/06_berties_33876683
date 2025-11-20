@@ -29,7 +29,7 @@ router.get('/list', (req, res, next) => {
     });
 });
 
-// Show books that cost less than £20
+///Show books that cost less than £20
 router.get('/bargainbooks', (req, res, next) => {
     const sql = 'SELECT * FROM books WHERE price < 20';
 
