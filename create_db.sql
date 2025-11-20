@@ -1,17 +1,19 @@
--- Database setup for Berties Books
+-- Lab 7 – Setting up database tables
+-- This file creates the database and tables we need for the Berties Books app
 
--- Create database if it doesn't already exist
+-- I start by creating the database (only if it's not already there)
 CREATE DATABASE IF NOT EXISTS berties_books;
 USE berties_books;
 
--- Books table
+-- Table for books (this has been here from previous labs)
 CREATE TABLE IF NOT EXISTS books (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
     price DECIMAL(5,2)
 );
 
--- Users table (added for Lab 7 - password handling)
+-- New users table (added in Lab 7 for registration + password hashing)
+-- hashedPassword stores the bcrypt-hashed value, not the real password
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -21,8 +23,14 @@ CREATE TABLE IF NOT EXISTS users (
     hashedPassword VARCHAR(255)
 );
 
--- Database access user
-CREATE USER IF NOT EXISTS 'berties_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop';
+-- Table used for audit logging (tracks all login attempts)
+-- This helps us to record both successful and failed logins
+CREATE TABLE IF NOT EXISTS audit (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50),
+    loginTime DATETIME,
+    status VARCHAR(10)   -- 'success' or 'fail'
+);
 
-GRANT ALL PRIVILEGES ON berties_books.* TO 'berties_books_app'@'localhost';
-FLUSH PRIVILEGES;
+-- Note: User creation and privileges have been removed here
+-- because they caused errors on the VM. The .env file handles DB access.
