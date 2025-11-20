@@ -1,90 +1,93 @@
-h1 {
+/* ===== HEADINGS ===== */
+h1, h2 {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
     color: darkcyan;
+    margin-bottom: 15px;
 }
 
-h2 {
+/* ===== TEXT & LISTS ===== */
+p, li, label {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    color: cadetblue;
+    font-size: 14px;
 }
 
-p, li {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-/* link styles */
-a:link {
-    color: orangered;
+/* ===== LINKS ===== */
+a {
     text-decoration: none;
     padding: 5px;
 }
+a:link    { color: orangered; }
+a:visited { color: tomato; }
+a:hover   { color: white; background-color: orangered; }
+a:active  { color: blue; }
 
-a:visited {
-    color: tomato;
-    text-decoration: none;
-    padding: 5px;
-}
-
-a:hover {
-    color: white;
-    background-color: orangered;
-    text-decoration: none;
-    padding: 5px;
-}
-
-a:active {
-    color: blue;
-    text-decoration: none;
-    padding: 5px;
-}
-
-/* ---------- NEW CLEAN LIST STYLING FOR BARGAIN BOOKS ---------- */
-
-ul {
-    list-style-type: none;        /* remove bullets */
-    padding: 0;                   
-    margin: 20px auto;
-    max-width: 400px;             /* keeps list neat */
-}
-
-li {
-    background-color: #f9f9f9;
-    padding: 10px;
-    margin-bottom: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-li:hover {
-    background-color: #f1f1f1;
-}
-
-/* ---------- TABLE STYLING ---------- */
-
+/* ===== TABLES ===== */
 table {
     border-collapse: collapse;
     margin: 20px auto;
     width: 70%;
     font-family: Arial, Helvetica, sans-serif;
 }
-
 th, td {
     border: 1px solid #ccc;
     padding: 10px;
-    text-align: left;
 }
-
 th {
     background-color: #f0f0f0;
-    color: #333;
 }
-
 tr:nth-child(even) {
     background-color: #f9f9f9;
 }
-
 tr:hover {
     background-color: #f1f1f1;
+}
+
+/* ===== FORMS ===== */
+form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 15px;
+    background: #f8f8f8;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* ===== BUTTONS ===== */
+input[type="submit"],
+button {
+    background: orangered;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+input[type="submit"]:hover,
+button:hover {
+    background: tomato;
+}
+
+/* ===== SUCCESS & ERROR MESSAGES ===== */
+.success {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.error {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
 }

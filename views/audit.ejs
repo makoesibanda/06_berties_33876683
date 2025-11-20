@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Audit Log – <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+  </head>
+  <body>
+    <h1>Audit Log for <%= shopData.shopName %></h1>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Login Time</th>
+        <th>Status</th>
+      </tr>
+
+      <% auditData.forEach(function(entry) { %>
+        <tr>
+          <td><%= entry.id %></td>
+          <td><%= entry.username %></td>
+          <td><%= entry.loginTime.toLocaleString() %></td>
+          <td><%= entry.status %></td>
+        </tr>
+      <% }) %>
+    </table>
+
+    <p><a href="/">Back to Home</a></p>
+  </body>
+</html>
