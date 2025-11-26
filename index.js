@@ -8,6 +8,8 @@ const path = require('path');
 const app = express();
 const port = 8000;
 
+var session = require ('express-session')
+
 // Use EJS as view engine
 app.set('view engine', 'ejs');
 
@@ -16,6 +18,17 @@ app.use(express.urlencoded({ extended: true }));
 
 // Public folder for css and static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Create a session
+app.use(session({
+    secret: 'somerandomstuff',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}))
+
 
 // Basic app data
 app.locals.shopData = { shopName: "Bertie's Books" };

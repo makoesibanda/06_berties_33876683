@@ -1,60 +1,41 @@
-# Lab 7 – Password Hashing
+# Lab 8a – Authorisation
 
 ## Overview
-This lab focused on improving the security of the Berties Books web application. I added password hashing using bcrypt, included a login system, secured the database credentials with dotenv and introduced audit logging to track both successful and unsuccessful login attempts. All work was carried out using the existing project from Lab 6.
+This lab focused on implementing session-based authorisation in the Bertie’s Books web application. I introduced session management using the `express-session` module and restricted access to selected routes so that only logged-in users can view sensitive content or interact with database-driven features. This builds on top of the login system created in Lab 7.
 
 ---
 
-## Part A – Password Hashing
-
-### Registration
-I updated the registration form to include username and password fields. In `users.js`, I retrieved the entered password via `req.body.password` and hashed it using bcrypt with 10 salt rounds before saving it to the database. Only the hashed version is stored.
-
-I created a new `users` table with the following fields:
-- username  
-- first name  
-- last name  
-- email  
-- hashedPassword  
-
-During testing, I temporarily displayed both the entered and hashed passwords (as instructed for debugging). This was removed afterwards.
-
-### List Users
-I added the route `/users/list` to display the registered users. It shows username, first name, last name and email only – no password details.
-
-### Login
-I created a login form at `/users/login`. On submitting the form, `/users/loggedin` checks the entered credentials by using `bcrypt.compare`. If the password matches the stored hashed password, the login succeeds. Otherwise, an error message is shown.
-
-All related routes (`/users/register`, `/users/registered`, `/users/list`, `/users/login`, `/users/loggedin`) were tested locally.
 
 ---
 
-## Part B – Extension Tasks
+## Protected Routes
 
-### dotenv (Securing Database Credentials)
-I installed and used the dotenv module to secure the database connection. I created a `.env` file to store:
-- DB_HOST  
-- DB_USER  
-- DB_PASS  
-- DB_NAME  
+I restricted access to specific routes so that only authenticated users can access them:
 
-These values are accessed through `process.env` in `index.js`. The `.env` file is added to `.gitignore` to prevent it from being pushed to GitHub.
+### Users module
+- `/users/list` – now only accessible once logged in  
+- `/users/audit` – also protected to prevent unauthorised access  
+- `/users/login` and `/users/register` remain public
 
-### Audit Logging
-I created an `audit` table to store login activity. Each entry includes:
-- username  
-- login time  
-- status (success or fail)
+### Books module
+- `/books/list` – protected as it shows the complete list of available books  
+- `/books/addbook` – protected to prevent unauthorised addition of books  
+- `/books/bookadded` – protected after form submission
 
-Login attempts are automatically logged, and I added the route `/users/audit` to display the history.
+### Publicly accessible pages
+- `/books/search`  
+- `/books/search-result`  
+- `/books/bargainbooks`
+
+I tested the behaviour both logged in and logged out. When logged out, protected routes redirect to the login page. Once logged in, they become accessible as expected.
 
 ---
 
-## Part D – Deployment and Default Access
+## Logout Feature
+I added a logout route which clears the session. Once logged out, attempting to access any protected route redirects back to the login page. A logout link was also added to the home page for better usability.
 
-I added the required default user in the `insert_test_data.sql` script:
-- Username: gold  
-- Password: smiths - in order to get this, I first find the hash of it which is "$2b$10$84aoRqZYKbgxcmWdg9L9OeaK3ILr1ZV8BwGEQ01nWQHFGo.0KX7/W"
+---
 
-The application was deployed on the VM and updated with the latest database changes. It is running using the following command:
-forever start index.js
+
+## Summary
+This lab successfully introduced secure session-based access control into the application. Only authenticated users can access key routes such as book listing and audit history, while general content remains openly available. The logout function ensures active sessions can be terminated properly, further improving user control and security.

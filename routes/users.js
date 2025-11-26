@@ -6,6 +6,16 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Hashing strength
 
+// Middleware to protect routes (only logged-in users can access)
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId ) {
+      res.redirect('./login') // redirect to the login page
+    } else { 
+        next (); // move to the next middleware function
+    } 
+}
+
+
 // Show registration form
 router.get('/register', (req, res) => {
     res.render('register.ejs');
@@ -58,13 +68,14 @@ router.post('/registered', (req, res) => {
 });
 
 // List users (no passwords displayed)
-router.get('/list', (req, res) => {
-    const sql = 'SELECT username, first, last, email FROM users';
+router.get('/list', redirectLogin, (req, res) => {
+     const sql = 'SELECT username, first, last, email FROM users';
 
     db.query(sql, (err, results) => {
         if (err) return res.send('Error loading users');
         res.render('listusers.ejs', { usersData: results });
     });
+   
 });
 
 // Show login page
@@ -94,8 +105,14 @@ router.post('/loggedin', (req, res) => {
             if (err) return res.send('Error during verification');
 
             if (match) {
+
+                // Save user session here, when login is successful
+                req.session.userId = req.body.username;
+
                 db.query("INSERT INTO audit (username, loginTime, status) VALUES (?, NOW(), 'success')", [username]);
                 res.send('Login successful, welcome ' + username);
+                
+
             } else {
                 db.query("INSERT INTO audit (username, loginTime, status) VALUES (?, NOW(), 'fail')", [username]);
                 res.send('Login failed: incorrect password');
@@ -105,7 +122,8 @@ router.post('/loggedin', (req, res) => {
 });
 
 // Show audit log
-router.get('/audit', (req, res) => {
+router.get('/audit', redirectLogin, (req, res) => {
+
     const sql = 'SELECT * FROM audit ORDER BY loginTime DESC';
 
     db.query(sql, (err, results) => {

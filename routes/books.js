@@ -2,6 +2,15 @@
 const express = require('express');
 const router = express.Router();
 
+// Middleware: protect routes that require login
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId) {
+        res.redirect('/users/login');  // redirect to login if not logged in
+    } else {
+        next(); // allow access
+    }
+};
+
 // Display the basic search page
 router.get('/search', (req, res) => {
     res.render('search.ejs');
@@ -19,8 +28,8 @@ router.get('/search-result', (req, res, next) => {
     });
 });
 
-// List all available books
-router.get('/list', (req, res, next) => {
+// List all available books and also added the access control feature
+router.get('/list', redirectLogin,(req, res, next) => {
     const sql = 'SELECT * FROM books';
 
     db.query(sql, (err, result) => {
@@ -29,7 +38,7 @@ router.get('/list', (req, res, next) => {
     });
 });
 
-///Show books that cost less than £20
+///Show books that cost less than £20 and also added the access control feature
 router.get('/bargainbooks', (req, res, next) => {
     const sql = 'SELECT * FROM books WHERE price < 20';
 
