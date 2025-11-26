@@ -13,7 +13,7 @@ const redirectLogin = (req, res, next) => {
 
 
 // List all books
-router.get('books/list', function (req, res, next) {
+router.get('books/list', redirectLogin,function (req, res, next) {
     const sqlquery = "SELECT * FROM books";
 
     db.query(sqlquery, (err, result) => {
@@ -37,7 +37,7 @@ router.get('/addbook',redirectLogin, function (req, res) {
     res.render('addbook.ejs');
 });
 
-// Handle form submission and save book to the database
+/// Handle form submission and save book to the database
 router.post('/bookadded',redirectLogin, function (req, res, next) {
 
     const sqlquery = "INSERT INTO books (name, price) VALUES (?, ?)";

@@ -6,7 +6,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Hashing strength
 
-// Middleware to protect routes (only logged-in users can access)
+/// Middleware to protect routes (only logged-in users can access)
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId ) {
       res.redirect('/users/login') // redirect to the login page
