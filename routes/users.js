@@ -6,10 +6,12 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Hashing strength
 
+const { check, validationResult } = require('express-validator');
+
 /// Middleware to protect routes (only logged-in users can access)
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId ) {
-      res.redirect('users/login') // redirect to the login page
+      res.redirect('/users/login') // redirect to the login page
     } else { 
         next (); // move to the next middleware function
     } 
@@ -22,7 +24,20 @@ router.get('/register', (req, res) => {
 });
 
 // Handle user registration
-router.post('/registered', (req, res) => {
+router.post('/registered',
+    [
+        check('email').isEmail(), 
+        check('username').isLength({ min: 5, max: 20})
+    ], 
+
+     (req, res) => {
+
+      const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('register');
+    }
+    else {
+
     const plainPassword = req.body.password; // User's entered password
 
     // Hash the password before saving
@@ -65,6 +80,7 @@ router.post('/registered', (req, res) => {
             );
         });
     });
+    }
 });
 
 // List users (no passwords displayed)
