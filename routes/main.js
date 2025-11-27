@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 
+const { check, validationResult } = require('express-validator');
+
 // Middleware to restrict access unless logged in
 const redirectLogin = (req, res, next) => {
     if (!req.session.userId) {
@@ -38,19 +40,32 @@ router.get('/addbook',redirectLogin, function (req, res) {
 });
 
 /// Handle form submission and save book to the database
-router.post('/bookadded',redirectLogin, function (req, res, next) {
-
-    const sqlquery = "INSERT INTO books (name, price) VALUES (?, ?)";
-    const newrecord = [req.body.name, req.body.price];
+router.post('/bookadded',
+    redirectLogin,
+    [
+        check('name').notEmpty(),
+        check('price').isFloat({ min: 0 }) 
+    ],
+     function (req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.render('./addbook')
+    }
+    else { 
+const sqlquery = "INSERT INTO books (name, price) VALUES (?, ?)";
+    const newrecord = [req.sanitize(req.body.name), req.sanitize(req.body.price)];
 
     db.query(sqlquery, newrecord, (err, result) => {
         if (err) return next(err);
 
         res.render('bookadded.ejs', {
-            bookName: req.body.name,
-            bookPrice: req.body.price
+            bookName: req.sanitize(req.body.name),
+            bookPrice:req.sanitize(req.body.price)
         });
-    });
+    });    }
+
+
+    
 });
 
 //logout router 

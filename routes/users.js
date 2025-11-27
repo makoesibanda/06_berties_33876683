@@ -27,7 +27,10 @@ router.get('/register', (req, res) => {
 router.post('/registered',
     [
         check('email').isEmail(), 
-        check('username').isLength({ min: 5, max: 20})
+        check('username').isLength({ min: 5, max: 20}),
+        check('password').isLength({ min: 8 }),
+        check('first').notEmpty(),
+        check('last').notEmpty()
     ], 
 
      (req, res) => {
@@ -53,11 +56,11 @@ router.post('/registered',
         `;
 
         const values = [
-            req.body.username,
-            req.body.first,
-            req.body.last,
-            req.body.email,
-            hashedPassword
+            req.sanitize(req.body.username),
+            req.sanitize(req.body.first),
+            req.sanitize(req.body.last),
+            req.body.email,     // not sanitised
+            hashedPassword      // not sanitised
         ];
 
         db.query(sql, values, (err) => {
@@ -73,7 +76,7 @@ router.post('/registered',
 
             // Showing hashed password is only for lab testing
             res.send(
-                'Hello ' + req.body.first + ' ' + req.body.last +
+                'Hello ' + req.sanitize(req.body.first) + ' ' + req.sanitize(req.body.last) +
                 '. You are now registered. Email: ' + req.body.email +
                 '. Password: ' + req.body.password +
                 ' | Hashed: ' + hashedPassword

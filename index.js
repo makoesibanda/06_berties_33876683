@@ -16,6 +16,12 @@ app.set('view engine', 'ejs');
 // Handle form data
 app.use(express.urlencoded({ extended: true }));
 
+const expressSanitizer = require('express-sanitizer');
+
+// Create an input sanitizer
+app.use(expressSanitizer());
+
+
 // Public folder for css and static files
 app.use(express.static(path.join(__dirname, 'public')));
 
