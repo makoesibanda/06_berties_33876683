@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
-// bcrypt for password hashing
+/// bcrypt for password hashing
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Hashing strength
 
