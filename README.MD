@@ -1,45 +1,44 @@
-# Lab 9 – Calling Web APIs and Error Handling
+# Lab 9b – Providing APIs and Extensions
 
 ## Overview  
-In this lab I connected my Express application to the **OpenWeather API** to display live weather data. Users can enter a city name and view real-time weather information inside the app.
+In this lab I created and provided my own **Web API** using Express and MySQL. The API allows book data from the database to be accessed in **JSON format** so that it can be used by other applications or developers.
 
-This lab helped me understand how to call external APIs, work with JSON data, add interactivity using forms, improve the design using CSS, and apply error handling.
-
----
-
-## Calling the OpenWeather API  
-I first tested the OpenWeather API in the browser using my API key. The API returned a JSON response containing temperature, humidity, wind speed and weather description, confirming that the API was working correctly.
+This lab helped me understand how to build server-side APIs, work with query parameters, and return structured data instead of HTML pages.
 
 ---
 
-## Displaying Weather Data  
-I added a `/weather` route to my Express application and used the `request` module to fetch live weather data. I extracted and displayed the following information:
-- **Temperature**
-- **Humidity**
-- **Wind speed**
-- **Weather description**
+## Creating the Books API  
+I created a new `/api/books` route in my Express application. This route connects to the database and returns all books in **JSON format** instead of rendering an HTML view.
 
-The data is shown in a readable format instead of raw JSON.
+This helped me understand the difference between normal website routes and API routes that are designed for data access only.
 
 ---
 
-## Adding Interactivity  
-I added a form so users can enter their own city name. The city is sent to the server using a GET request and the live weather for that city is displayed on the page.
+## Adding a Search Feature  
+I added a search feature to the API so that users can filter books by name using a query parameter. This allows specific books to be retrieved instead of always returning the full list.
+
+This helped me understand how query parameters can be used to dynamically change API behaviour.
 
 ---
 
-## Improving the Design  
-I used CSS to improve the appearance of the weather output by adding:
-- Better font size  
-- Improved colours  
-- A styled layout for the results  
+## Adding a Price Range Filter  
+I added support for filtering books using a minimum and maximum price. This allows users to request only the books that fall within a specific price range.
+
+This improved the flexibility of the API and showed how numerical filtering can be applied to database data.
 
 ---
 
-## Error Handling  
-When a non-existent city is entered, the application checks if valid weather data exists. If not, it displays **“No data found”** instead of crashing.
+## Adding Sorting Options  
+I added a sort option so that the API results can be ordered either by **book name** or by **price**. This helps organise the returned data in a more meaningful way depending on the user’s needs.
+
+This helped me understand how sorting works at the database query level.
+
+---
+
+## API Response Format  
+All API requests return data in **JSON format**. This makes the API suitable for use with other applications, services, or front-end frameworks.
 
 ---
 
 ## Conclusion  
-This lab gave me practical experience in using Web APIs inside an Express application. I learned how to fetch live data, process JSON responses, improve the user interface, and safely handle invalid user input.
+This lab helped me understand how to **provide my own Web API**, return structured JSON data from a database, and extend an API with searching, filtering, and sorting. I now understand how APIs are used to share data between systems and how they differ from standard website routes.
