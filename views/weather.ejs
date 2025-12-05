@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Weather - <%= shopData.shopName %></title>
+    <link rel="stylesheet" type="text/css" href="/main.css">
+  </head>
+  <body>
+
+    <h1>Check Weather</h1>
+
+    <!-- Weather form -->
+    <form method="GET" action="/weather">
+      <p>
+        <label for="city">Enter city name:</label>
+        <input id="city" type="text" name="city" required>
+      </p>
+
+      <p>
+        <input type="submit" value="Get Weather">
+      </p>
+    </form>
+
+    <!-- Only show weather message if it exists -->
+    <% if (weatherMsg) { %>
+  <div class="weather-box">
+    <p><strong><%- weatherMsg %></strong></p>
+  </div>
+    <% } %>
+
+    <p><a href="/">Back to Home</a></p>
+
+  </body>
+</html>
