@@ -38,6 +38,23 @@ router.get('/list', redirectLogin,(req, res, next) => {
     });
 });
 
+router.get('/addbook', redirectLogin, (req, res) => {
+    res.render('addbook.ejs');
+});
+
+router.post('/addbook', redirectLogin, (req, res, next) => {
+    const name = req.body.name;
+    const price = req.body.price;
+
+    const sql = "INSERT INTO books (name, price) VALUES (?, ?)";
+
+    db.query(sql, [name, price], (err, result) => {
+        if (err) return next(err);
+        res.redirect('/books/list');
+    });
+});
+
+
 ///Show books that cost less than £20 and also added the access control feature
 router.get('/bargainbooks', (req, res, next) => {
     const sql = 'SELECT * FROM books WHERE price < 20';
